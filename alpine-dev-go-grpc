@@ -1,0 +1,21 @@
+FROM frolvlad/alpine-glibc
+
+ENV GOLANG_VERSION 1.9.2
+
+RUN apk add --no-cache gcc unzip
+RUN wget -O go.tgz https://dl.google.com/go/go$GOLANG_VERSION.linux-amd64.tar.gz
+RUN wget -O protoc.zip https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip
+
+RUN mkdir /go
+RUN tar -C /usr/local -xzf go.tgz
+ENV PATH="${PATH}:/usr/local/go/bin"
+
+ENV GOPATH /go
+RUN go get -u google.golang.org/grpc
+
+RUN mkdir /protoc
+RUN unzip protoc.zip -d /protoc
+ENV PATH="${PATH}:/protoc/bin"
+
+RUN go get -u github.com/golang/protobuf/protoc-gen-go
+ENV PATH="${PATH}:${GOPATH}/bin"
