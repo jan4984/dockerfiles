@@ -1,2 +1,2 @@
 FROM phusion/baseimage
-RUN apt install -y gcc automake autoconf cmake g++
+RUN apt-get update && apt-get install -y gcc automake autoconf cmake g++
