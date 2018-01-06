@@ -1,5 +1,5 @@
 FROM phusion/baseimage
-RUN apt-get update && apt-get install -y gcc unzip
+RUN apt-get update && apt-get install -y gcc unzip wget
 
 ENV GOLANG_VERSION 1.9.2
 
