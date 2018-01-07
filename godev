@@ -17,5 +17,5 @@ RUN mkdir /protoc
 RUN unzip protoc.zip -d /protoc
 ENV PATH="${PATH}:/protoc/bin"
 
-RUN go get -u github.com/golang/protobuf/protoc-gen-go
+RUN go get -u github.com/golang/protobuf/protoc-gen-go github.com/stretchr/testify/assert
 ENV PATH="${PATH}:${GOPATH}/bin"
