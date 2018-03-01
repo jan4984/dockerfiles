@@ -1,5 +1,5 @@
 FROM phusion/baseimage
-RUN apt-get update && apt-get install -y gcc unzip wget git
+RUN apt-get update && apt-get install -y gcc unzip wget git libopus-dev libavformat-dev libavresample-dev libswscale-dev
 
 ENV GOLANG_VERSION 1.9.2
 
