@@ -1,0 +1,49 @@
+FROM debian:9
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get -y install gcc g++; \
+    apt-get -y install git cmake libsqlite3-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-good libasound2-dev \
+	nano libatlas-base-dev wget gstreamer1.0-plugins-ugly gstreamer1.0-plugins-bad gstreamer1.0-alsa alsa-utils make \
+	libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-libav doxygen; \
+    apt-get -y install openssl clang-format pulseaudio repo binutils autoconf automake autotools-dev libtool pkg-config \
+		zlib1g-dev libcunit1-dev libssl-dev libxml2-dev libev-dev libevent-dev libjansson-dev libjemalloc-dev cython \
+		python3-dev python-setuptools libgstreamer-plugins-good1.0-dev python-pip;
+	
+ENV BASE=/ivs_build
+
+RUN cd $BASE \
+ && mkdir sdk-folder && cd sdk-folder \
+ && mkdir sdk-build sdk-source third-party application-necessities \
+ && cd application-necessities && mkdir sound-files
+
+RUN cd $BASE/sdk-folder/third-party \
+      && git clone --depth 1 --single-branch https://github.com/tatsuhiro-t/nghttp2.git \
+      && cd nghttp2 \
+      && autoreconf -i \
+      && automake \
+      && autoconf \
+      && ./configure \
+      && make \
+      && make install; \
+      cd $BASE/sdk-folder/third-party \
+      && wget http://curl.haxx.se/download/curl-7.54.0.tar.bz2 \
+      && tar -xvjf curl-7.54.0.tar.bz2 \
+      && cd curl-7.54.0 \
+      && ./configure --with-nghttp2=/usr/local --with-ssl \
+      && make \
+      && make install \
+	    && rm -rf ../curl-7.54.0.tar.bz2 \
+      && ldconfig \
+      && curl -I https://nghttp2.org/; \
+      pip install --user flask requests commentjson; \
+      python --version; \ 
+    	pip --version
+    
+RUN cd $BASE/sdk-folder/third-party \
+ && wget -c http://www.portaudio.com/archives/pa_stable_v190600_20161030.tgz \
+ && tar zxf pa_stable_v190600_20161030.tgz \
+ && rm -rf ./pa_stable_v190600_20161030.tgz \
+ && cd portaudio \
+ && ./configure --without-jack \
+ && make
+ 
