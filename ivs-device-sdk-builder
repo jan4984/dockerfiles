@@ -13,6 +13,8 @@ RUN apt-get -yq install gcc g++; \
 	
 ENV BASE=/ivs_build
 
+RUN mkdir $BASE
+
 RUN cd $BASE \
  && mkdir sdk-folder && cd sdk-folder \
  && mkdir sdk-build sdk-source third-party application-necessities \
