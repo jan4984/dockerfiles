@@ -21,7 +21,7 @@ RUN echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswit
 
 #CMD ["minio"]
 
-RUN apt update&& apt install -y git curl
+RUN apt update&& apt install -y git curl gcc
 
 RUN groupadd --gid 1000 node \
   && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
