@@ -2,7 +2,7 @@ FROM golang:1.14
 
 WORKDIR /tmp
 RUN wget https://github.com/golang-migrate/migrate/releases/download/v4.10.0/migrate.linux-amd64.tar.gz \
- && tar xvz migrate.linux-amd64.tar.gz && mv migrate.linux-amd64 /bin/migrate
+ && tar xf migrate.linux-amd64.tar.gz && mv migrate.linux-amd64 /bin/migrate
 
 RUN wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.24.0 && mv bin/golangci-lint /bin/
 
