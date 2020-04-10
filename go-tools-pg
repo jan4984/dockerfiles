@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		libc6-dev \
 		make \
 		pkg-config \
+		ca-certificates \
 		wget \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -27,7 +28,7 @@ RUN set -eux; \
 	esac; \
 	\
 	url="https://golang.org/dl/go${GOLANG_VERSION}.${goRelArch}.tar.gz"; \
-	wget --no-check-certificate -O go.tgz "$url"; \
+	wget -O go.tgz "$url"; \
 	echo "${goRelSha256} *go.tgz" | sha256sum -c -; \
 	tar -C /usr/local -xzf go.tgz; \
 	rm go.tgz; \
@@ -50,7 +51,7 @@ WORKDIR /tmp
 RUN wget https://github.com/golang-migrate/migrate/releases/download/v4.10.0/migrate.linux-amd64.tar.gz \
  && tar xf migrate.linux-amd64.tar.gz && mv migrate.linux-amd64 /bin/migrate
 
-RUN wget --no-check-certificate -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.24.0 && mv bin/golangci-lint /bin/
+RUN wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.24.0 && mv bin/golangci-lint /bin/
 
 # postgres entrypoint is /usr/local/bin/docker-entrypoint.sh
 # golang not have entrypoint
